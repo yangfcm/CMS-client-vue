@@ -1,8 +1,13 @@
 <template>
-  <div>
-    Index page
-    <app-categories-list :categories="categories"></app-categories-list>
-    <app-tags-list></app-tags-list>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-9 col-md-8">Posts</div>
+      <div class="col-lg-3 col-md-4">
+        <app-categories-list :categories="categories" :error="categoryError"></app-categories-list>
+        <div class="my-4"></div>
+        <app-tags-list :tags="tags" :error="tagError"></app-tags-list>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -17,12 +22,20 @@ export default {
     appTagsList: TagsList
   },
   computed: {
-    ...mapGetters(["tags", "categories"])
+    ...mapGetters([
+      "tags",
+      "categories",
+      "categoryError",
+      "tagError",
+      "posts",
+      "postsError"
+    ])
   },
   methods: {
     ...mapActions({
       readCategories: "readCategories",
-      readTags: "readTags"
+      readTags: "readTags",
+      readPosts: "readPosts"
     })
   },
   async created() {

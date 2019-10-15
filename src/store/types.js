@@ -1,4 +1,5 @@
 export const READ_POSTS = "READ_POSTS";
+export const READ_POST = "READ_POST";
 export const OPER_POST_ERR = "OPER_POST_ERR";
 
 export const READ_COMMENTS = "READ_COMMENTS";
