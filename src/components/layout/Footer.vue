@@ -12,9 +12,8 @@ export default {};
 .app--footer {
   padding: 1rem;
   background-color: #efefef;
-  position: fixed;
+  /* position: fixed; */
   bottom: 0;
   width: 100%;
-  z-index: 9999;
 }
 </style>

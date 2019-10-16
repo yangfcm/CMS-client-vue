@@ -3,12 +3,12 @@
     <div class="row">
       <div class="col-lg-8 col-md-7 col-12 d-flex flex-column justify-content-around">
         <router-link :to="`/post/${post._id}`">
-          <h2>
+          <h3>
             {{post.title}}
             <small>
               <span class="badge badge-danger" v-if="post.isTop">TOP</span>
             </small>
-          </h2>
+          </h3>
         </router-link>
         <div class="pt-3 pb-1">
           <img :src="avatarDefaultSrc" :alt="post.author.username" class="app--avatar-image">

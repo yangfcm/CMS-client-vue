@@ -3,17 +3,20 @@ import axios from "../../settings/api";
 
 const state = {
   posts: null,
+  pagination: null,
   error: null
 };
 
 const getters = {
   posts: state => state.posts,
+  pagination: state => state.pagination,
   postError: state => state.error
 };
 
 const mutations = {
   READ_POSTS: (state, payload) => {
     state.posts = payload.data;
+    state.pagination = payload.meta;
     state.error = null;
   },
   READ_POST: (state, payload) => {
