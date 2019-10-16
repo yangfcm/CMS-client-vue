@@ -8,7 +8,7 @@ const state = {
 
 const getters = {
   tags: state => state.tags,
-  tagError: state => state.rror
+  tagError: state => state.error
 };
 
 const mutations = {

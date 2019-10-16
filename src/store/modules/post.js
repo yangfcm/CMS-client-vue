@@ -26,7 +26,7 @@ const mutations = {
 };
 
 const actions = {
-  readPosts: async (context, page, categoryId = null, tagId = Null) => {
+  readPosts: async (context, page, categoryId = null, tagId = null) => {
     const currentPage = page || 1;
     let apiUrl = `/api/posts?status=1&page=${currentPage}`;
     if (categoryId) {

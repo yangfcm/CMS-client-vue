@@ -1,11 +1,15 @@
 <template>
   <div class="container">
-    <div class="row">
-      <div class="col-lg-9 col-md-8">Posts</div>
+    <div v-if="isLoading">Loading...</div>
+    <div v-else-if="postError || categoryError || tagError">
+      <div class="alert alert-danger">Error occurs: {{ postError || categoryError || tagError }}</div>
+    </div>
+    <div v-else class="row">
+      <app-posts-list class="col-lg-9 col-md-8" :posts="posts"></app-posts-list>
       <div class="col-lg-3 col-md-4">
-        <app-categories-list :categories="categories" :error="categoryError"></app-categories-list>
+        <app-categories-list :categories="categories"></app-categories-list>
         <div class="my-4"></div>
-        <app-tags-list :tags="tags" :error="tagError"></app-tags-list>
+        <app-tags-list :tags="tags"></app-tags-list>
       </div>
     </div>
   </div>
@@ -15,11 +19,18 @@
 import { mapGetters, mapActions } from "vuex";
 import CategoriesList from "../modules/CategoriesList.vue";
 import TagsList from "../modules/TagsList.vue";
+import PostsList from "../modules/PostsList.vue";
 
 export default {
   components: {
     appCategoriesList: CategoriesList,
-    appTagsList: TagsList
+    appTagsList: TagsList,
+    appPostsList: PostsList
+  },
+  data: () => {
+    return {
+      isLoading: true
+    };
   },
   computed: {
     ...mapGetters([
@@ -28,7 +39,7 @@ export default {
       "categoryError",
       "tagError",
       "posts",
-      "postsError"
+      "postError"
     ])
   },
   methods: {
@@ -39,8 +50,13 @@ export default {
     })
   },
   async created() {
-    await this.readCategories();
-    await this.readTags();
+    try {
+      await this.readPosts();
+      await this.readCategories();
+      await this.readTags();
+    } finally {
+      this.isLoading = false;
+    }
   }
 };
 </script>
