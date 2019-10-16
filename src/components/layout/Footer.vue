@@ -1,7 +1,5 @@
 <template>
-  <div class="app--footer">
-    <div class="text-center">CMS blog system developed by Fan Y.</div>
-  </div>
+  <div class="text-muted text-center pt-5 pb-2">CMS blog system developed by Fan Y.</div>
 </template>
 
 <script>
@@ -9,11 +7,4 @@ export default {};
 </script>
 
 <style scoped>
-.app--footer {
-  padding: 1rem;
-  background-color: #efefef;
-  /* position: fixed; */
-  bottom: 0;
-  width: 100%;
-}
 </style>

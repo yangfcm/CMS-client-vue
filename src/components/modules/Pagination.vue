@@ -1,12 +1,12 @@
 <template>
   <div class="d-flex justify-content-center">
-    <!-- <a @click="() => { readPostsInPage(2)}">Page</a> -->
+    <!-- <a @click="() => { readPostsInPage(2)}">Page</button> -->
     <ul class="pagination">
       <li v-if="totalPages > availPages" class="page-item" :class="{ disabled: currentPage==1}">
-        <a href="#" class="page-link" @click="() => { readPostsInPage(1) }">&laquo;</a>
+        <button class="page-link" @click="() => { readPostsInPage(1) }">&laquo;</button>
       </li>
       <li v-if="totalPages > availPages" class="page-item" :class="{ disabled: currentPage ==1}">
-        <a href="#" class="page-link" @click="() => { readPostsInPage(currentPage-1)}">&lt;</a>
+        <button class="page-link" @click="() => { readPostsInPage(currentPage-1)}">&lt;</button>
       </li>
       <li
         v-for="(page, index) in pagesArr"
@@ -14,21 +14,21 @@
         class="page-item"
         :class="{active: page==currentPage}"
       >
-        <a class="page-link" href="#" @click="() => { readPostsInPage(page)}">{{page}}</a>
+        <button class="page-link" @click="() => { readPostsInPage(page)}">{{page}}</button>
       </li>
       <li
         v-if="totalPages > availPages"
         class="page-item"
         :class="{ disabled: currentPage ==totalPages}"
       >
-        <a href="#" class="page-link" @click="() => { readPostsInPage(currentPage+1)}">&gt;</a>
+        <button class="page-link" @click="() => { readPostsInPage(currentPage+1)}">&gt;</button>
       </li>
       <li
         v-if="totalPages > availPages"
         class="page-item"
         :class="{ disabled: currentPage==totalPages}"
       >
-        <a href="#" class="page-link" @click="() => { readPostsInPage(totalPages) }">&raquo;</a>
+        <button class="page-link" @click="() => { readPostsInPage(totalPages) }">&raquo;</button>
       </li>
     </ul>
   </div>
