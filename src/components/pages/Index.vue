@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <div v-if="isLoading">Loading...</div>
+    <div v-if="isLoading">
+      <app-loading></app-loading>
+    </div>
     <div v-else-if="postError || categoryError || tagError">
       <div class="alert alert-danger">Error occurs: {{ postError || categoryError || tagError }}</div>
     </div>
@@ -24,13 +26,15 @@ import CategoriesList from "../modules/CategoriesList.vue";
 import TagsList from "../modules/TagsList.vue";
 import PostsList from "../modules/PostsList.vue";
 import Pagination from "../modules/Pagination.vue";
+import Loading from "../modules/Loading.vue";
 
 export default {
   components: {
     appCategoriesList: CategoriesList,
     appTagsList: TagsList,
     appPostsList: PostsList,
-    appPagination: Pagination
+    appPagination: Pagination,
+    appLoading: Loading
   },
   data: () => {
     return {

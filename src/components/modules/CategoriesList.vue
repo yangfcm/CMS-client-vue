@@ -2,7 +2,7 @@
   <div>
     <h4 class="text-center mb-3">Categories</h4>
     <div v-if="categories && categories.length===0">
-      <div class="alert alert-warning text-center">No Categories</div>
+      <div class="alert alert-light text-center">No Categories</div>
     </div>
     <div v-else>
       <router-link

@@ -1,11 +1,14 @@
 <template>
   <div class="container">
-    <div v-if="isLoading">Loading...</div>
+    <div v-if="isLoading">
+      <app-loading></app-loading>
+    </div>
     <div v-else-if="postError || categoryError || tagError">
       <div class="alert alert-danger">Error occurs: {{ postError || categoryError || tagError }}</div>
     </div>
     <div v-else class="row">
       <div class="col-lg-9 col-md-8 mb-5" :posts="posts">
+        <h2 class="text-center text-primary mb-4">Tag: {{ tag.name}}</h2>
         <app-posts-list :posts="posts"></app-posts-list>
         <app-pagination></app-pagination>
       </div>
@@ -24,13 +27,15 @@ import CategoriesList from "../modules/CategoriesList.vue";
 import TagsList from "../modules/TagsList.vue";
 import PostsList from "../modules/PostsList.vue";
 import Pagination from "../modules/Pagination.vue";
+import Loading from "../modules/Loading.vue";
 
 export default {
   components: {
     appCategoriesList: CategoriesList,
     appTagsList: TagsList,
     appPostsList: PostsList,
-    appPagination: Pagination
+    appPagination: Pagination,
+    appLoading: Loading
   },
   data: () => {
     return {
@@ -40,6 +45,7 @@ export default {
   computed: {
     ...mapGetters([
       "tags",
+      "tag",
       "categories",
       "categoryError",
       "tagError",
@@ -52,6 +58,7 @@ export default {
       this.isLoading = true;
       const tagId = to.params.id;
       try {
+        await this.readTag(tagId);
         await this.readPosts({ page: 1, tagId });
       } finally {
         this.isLoading = false;
@@ -62,6 +69,7 @@ export default {
     ...mapActions({
       readCategories: "readCategories",
       readTags: "readTags",
+      readTag: "readTag",
       readPosts: "readPosts"
     })
   },
@@ -74,6 +82,7 @@ export default {
       if (!this.tags) {
         await this.readTags();
       }
+      await this.readTag(tagId);
       await this.readPosts({ page: 1, tagId });
     } finally {
       this.isLoading = false;

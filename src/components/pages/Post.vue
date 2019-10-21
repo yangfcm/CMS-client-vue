@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <div v-if="isLoading">Loading...</div>
+    <div v-if="isLoading">
+      <app-loading></app-loading>
+    </div>
     <div v-else-if="postError">
       <div class="alert alert-danger">Error occurs: {{ postError }}</div>
     </div>
@@ -51,8 +53,12 @@ import { mapGetters, mapActions } from "vuex";
 import moment from "moment";
 import avatarDefault from "@/assets/avatar-default.png";
 import postDefault from "@/assets/post-default.jpg";
+import Loading from "../modules/Loading.vue";
 
 export default {
+  components: {
+    appLoading: Loading
+  },
   data: () => {
     return {
       isLoading: true,

@@ -1,11 +1,14 @@
 <template>
   <div class="container">
-    <div v-if="isLoading">Loading...</div>
+    <div v-if="isLoading">
+      <app-loading></app-loading>
+    </div>
     <div v-else-if="postError || categoryError || tagError">
       <div class="alert alert-danger">Error occurs: {{ postError || categoryError || tagError }}</div>
     </div>
     <div v-else class="row">
       <div class="col-lg-9 col-md-8 mb-5" :posts="posts">
+        <h2 class="text-center text-primary mb-4">Category: {{ category.name }}</h2>
         <app-posts-list :posts="posts"></app-posts-list>
         <app-pagination></app-pagination>
       </div>
@@ -24,13 +27,15 @@ import CategoriesList from "../modules/CategoriesList.vue";
 import TagsList from "../modules/TagsList.vue";
 import PostsList from "../modules/PostsList.vue";
 import Pagination from "../modules/Pagination.vue";
+import Loading from "../modules/Loading.vue";
 
 export default {
   components: {
     appCategoriesList: CategoriesList,
     appTagsList: TagsList,
     appPostsList: PostsList,
-    appPagination: Pagination
+    appPagination: Pagination,
+    appLoading: Loading
   },
   data: () => {
     return {
@@ -41,6 +46,7 @@ export default {
     ...mapGetters([
       "tags",
       "categories",
+      "category",
       "categoryError",
       "tagError",
       "posts",
@@ -52,6 +58,7 @@ export default {
       this.isLoading = true;
       const categoryId = to.params.id;
       try {
+        await this.readCategory(categoryId);
         await this.readPosts({ page: 1, categoryId });
       } finally {
         this.isLoading = false;
@@ -61,6 +68,7 @@ export default {
   methods: {
     ...mapActions({
       readCategories: "readCategories",
+      readCategory: "readCategory",
       readTags: "readTags",
       readPosts: "readPosts"
     })
@@ -77,6 +85,7 @@ export default {
       }
       // console.log(categoryId);
       // await this.$store.dispatch("readPosts", { page: 1, categoryId });
+      await this.readCategory(categoryId);
       await this.readPosts({ page: 1, categoryId });
     } finally {
       this.isLoading = false;
