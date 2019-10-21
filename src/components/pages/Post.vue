@@ -43,6 +43,8 @@
             >{{ tag.name }}</span>
           </h5>
         </div>
+        <div class="my-4 border-top"></div>
+        <app-comments-list :comments="comments" :comment="comment"></app-comments-list>
       </div>
     </div>
   </div>
@@ -54,10 +56,12 @@ import moment from "moment";
 import avatarDefault from "@/assets/avatar-default.png";
 import postDefault from "@/assets/post-default.jpg";
 import Loading from "../modules/Loading.vue";
+import CommentsList from "../modules/CommentsList.vue";
 
 export default {
   components: {
-    appLoading: Loading
+    appLoading: Loading,
+    appCommentsList: CommentsList
   },
   data: () => {
     return {
@@ -68,18 +72,28 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["post", "postError"])
+    ...mapGetters([
+      "post",
+      "postError",
+      "comments",
+      "comment",
+      "commentPagination",
+      "commentError"
+    ])
   },
   methods: {
     ...mapActions({
-      readPost: "readPost"
+      readPost: "readPost",
+      readComments: "readComments",
+      createComment: "createComment"
     })
   },
   async created() {
     const postId = this.$route.params.id;
     try {
       await this.readPost(postId);
-      console.log(this.post);
+      await this.readComments({ postId });
+      // console.log(this.post);
     } finally {
       this.isLoading = false;
     }
