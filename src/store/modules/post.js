@@ -29,15 +29,18 @@ const mutations = {
 };
 
 const actions = {
-  readPosts: async (context, page, categoryId = null, tagId = null) => {
+  readPosts: async (context, payload) => {
+    const { page, categoryId, tagId } = payload;
     const currentPage = page || 1;
     let apiUrl = `/api/posts?status=1&page=${currentPage}`;
+    // console.log(categoryId);
     if (categoryId) {
       apiUrl += `&category=${categoryId}`;
     }
     if (tagId) {
       apiUrl += `&tag=${tagId}`;
     }
+    // console.log(apiUrl);
 
     try {
       const response = await axios.get(apiUrl);

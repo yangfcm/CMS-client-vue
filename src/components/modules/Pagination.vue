@@ -84,7 +84,7 @@ export default {
       readPosts: "readPosts"
     }),
     async readPostsInPage(page) {
-      await this.readPosts(page);
+      await this.$store.dispatch("readPosts", { page });
     }
   }
 };

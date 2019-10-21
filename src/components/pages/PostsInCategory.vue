@@ -1,8 +1,88 @@
 <template>
-  <div>Posts in category page</div>
+  <div class="container">
+    <div v-if="isLoading">Loading...</div>
+    <div v-else-if="postError || categoryError || tagError">
+      <div class="alert alert-danger">Error occurs: {{ postError || categoryError || tagError }}</div>
+    </div>
+    <div v-else class="row">
+      <div class="col-lg-9 col-md-8 mb-5" :posts="posts">
+        <app-posts-list :posts="posts"></app-posts-list>
+        <app-pagination></app-pagination>
+      </div>
+      <div class="col-lg-3 col-md-4">
+        <app-categories-list :categories="categories"></app-categories-list>
+        <div class="my-4"></div>
+        <app-tags-list :tags="tags"></app-tags-list>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+import CategoriesList from "../modules/CategoriesList.vue";
+import TagsList from "../modules/TagsList.vue";
+import PostsList from "../modules/PostsList.vue";
+import Pagination from "../modules/Pagination.vue";
+
+export default {
+  components: {
+    appCategoriesList: CategoriesList,
+    appTagsList: TagsList,
+    appPostsList: PostsList,
+    appPagination: Pagination
+  },
+  data: () => {
+    return {
+      isLoading: true
+    };
+  },
+  computed: {
+    ...mapGetters([
+      "tags",
+      "categories",
+      "categoryError",
+      "tagError",
+      "posts",
+      "postError"
+    ])
+  },
+  watch: {
+    $route: async function(to, from) {
+      this.isLoading = true;
+      const categoryId = to.params.id;
+      try {
+        await this.readPosts({ page: 1, categoryId });
+      } finally {
+        this.isLoading = false;
+      }
+    }
+  },
+  methods: {
+    ...mapActions({
+      readCategories: "readCategories",
+      readTags: "readTags",
+      readPosts: "readPosts"
+    })
+  },
+  async created() {
+    // console.log(this.$route.params.id);
+    const categoryId = this.$route.params.id;
+    try {
+      if (!this.categories) {
+        await this.readCategories();
+      }
+      if (!this.tags) {
+        await this.readTags();
+      }
+      // console.log(categoryId);
+      // await this.$store.dispatch("readPosts", { page: 1, categoryId });
+      await this.readPosts({ page: 1, categoryId });
+    } finally {
+      this.isLoading = false;
+    }
+  }
+};
 </script>
 
 <style scoped>

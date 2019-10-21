@@ -56,7 +56,8 @@ export default {
   },
   async created() {
     try {
-      await this.readPosts();
+      await this.readPosts({ page: 1 });
+      // await this.$store.dispatch("readPosts", { page: 1 });
       await this.readCategories();
       await this.readTags();
     } finally {
