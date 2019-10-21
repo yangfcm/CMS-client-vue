@@ -11,7 +11,11 @@
           </h3>
         </router-link>
         <div class="pt-3 pb-1">
-          <img :src="avatarDefaultSrc" :alt="post.author.username" class="app--avatar-image">
+          <img
+            :src="post.author.avatar || avatarDefaultSrc"
+            :alt="post.author.username"
+            class="app--avatar-image"
+          >
           <span class="text-primary font-weight-bold ml-2">{{post.author.username}}</span>
           wrote {{ moment(post.updatedAt*1000).fromNow() }}
         </div>

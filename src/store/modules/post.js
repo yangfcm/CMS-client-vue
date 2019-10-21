@@ -9,6 +9,7 @@ const state = {
 
 const getters = {
   posts: state => state.posts,
+  post: state => state.posts[0],
   pagination: state => state.pagination,
   postError: state => state.error
 };
@@ -22,6 +23,7 @@ const mutations = {
   READ_POST: (state, payload) => {
     state.posts = [payload.data]; // Put it in the array
     state.error = null;
+    state.pagination = null;
   },
   OPER_POST_ERR: (state, payload) => {
     state.error = payload.message;
