@@ -45,6 +45,8 @@
         </div>
         <div class="my-4 border-top"></div>
         <app-comments-list :comments="comments" :newComment="comment" :commentError="commentError"></app-comments-list>
+        <div class="my-4"></div>
+        <app-comment-form></app-comment-form>
       </div>
     </div>
   </div>
@@ -57,11 +59,13 @@ import avatarDefault from "@/assets/avatar-default.png";
 import postDefault from "@/assets/post-default.jpg";
 import Loading from "../modules/Loading.vue";
 import CommentsList from "../modules/CommentsList.vue";
+import CommentForm from "../modules/CommentForm.vue";
 
 export default {
   components: {
     appLoading: Loading,
-    appCommentsList: CommentsList
+    appCommentsList: CommentsList,
+    appCommentForm: CommentForm
   },
   data: () => {
     return {
