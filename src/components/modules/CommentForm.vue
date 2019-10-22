@@ -77,18 +77,21 @@
         </div>
       </div>
       <div class="text-center">
-        <button class="btn btn-outline-primary">Submit</button>
+        <button class="btn btn-primary" :disabled="isSubmitting">Submit</button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import { isEmptyStr, isValidEmail } from "../../utils/validate";
 
 export default {
+  props: ["postId"],
   data: () => {
     return {
+      isSubmitting: false,
       formData: {
         errors: {
           firstName: null,
@@ -99,14 +102,17 @@ export default {
         firstName: "",
         lastName: "",
         email: "",
-        comment: ""
-      },
-      touched: false
+        comment: "",
+        touched: false
+      }
     };
   },
   watch: {
     "formData.firstName": {
       handler: function(value) {
+        if (!this.formData.touched) {
+          return;
+        }
         if (!isEmptyStr(value)) {
           this.formData.errors.firstName = null;
         } else {
@@ -117,6 +123,9 @@ export default {
     },
     "formData.lastName": {
       handler: function(value) {
+        if (!this.formData.touched) {
+          return;
+        }
         if (!isEmptyStr(value)) {
           this.formData.errors.lastName = null;
         } else {
@@ -127,6 +136,9 @@ export default {
     },
     "formData.comment": {
       handler: function(value) {
+        if (!this.formData.touched) {
+          return;
+        }
         if (!isEmptyStr(value)) {
           this.formData.errors.comment = null;
         } else {
@@ -137,6 +149,9 @@ export default {
     },
     "formData.email": {
       handler: function(value) {
+        if (!this.formData.touched) {
+          return;
+        }
         if (isEmptyStr(value)) {
           this.formData.errors.email = "Email cannot be blank";
         } else if (!isValidEmail(value)) {
@@ -183,7 +198,16 @@ export default {
       }
       return isValidForm;
     },
-    handleSubmit(e) {
+
+    resetData() {
+      this.formData.firstName = "";
+      this.formData.lastName = "";
+      this.formData.email = "";
+      this.formData.comment = "";
+      this.formData.touched = false;
+    },
+
+    async handleSubmit(e) {
       e.preventDefault();
       if (!this.formData.touched) {
         this.formData.touched = true;
@@ -191,8 +215,21 @@ export default {
       if (!this.validateForm()) {
         return;
       }
-      console.log(this.formData);
-    }
+      this.isSubmitting = true;
+      const data = {
+        firstName: this.formData.firstName,
+        lastName: this.formData.lastName,
+        email: this.formData.email,
+        content: this.formData.comment,
+        postId: this.postId
+      };
+      await this.createComment({ data });
+      this.resetData();
+      this.isSubmitting = false;
+    },
+    ...mapActions({
+      createComment: "createComment"
+    })
   }
 };
 </script>

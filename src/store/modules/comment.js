@@ -24,7 +24,14 @@ const mutations = {
     state.error = null;
   },
   CREATE_COMMENT: (state, payload) => {
-    state.comment = payload.data;
+    const newComment = payload.data;
+    newComment.isNew = true;
+    state.comments.forEach(comment => {
+      if (comment.isNew) {
+        comment.isNew = false;
+      }
+    });
+    state.comments = [...state.comments, newComment];
     state.error = null;
   },
   OPER_COMMENT_ERR: (state, payload) => {
@@ -46,7 +53,16 @@ const actions = {
       context.commit(OPER_POST_ERR, errorData.message);
     }
   },
-  createComment: async (context, payload) => {}
+  createComment: async (context, payload) => {
+    const { data } = payload;
+    try {
+      const response = await axios.post("/api/comments", data);
+      context.commit(CREATE_COMMENT, response.data);
+    } catch (e) {
+      const errorData = e.response ? e.response.data : e;
+      context.commit(OPER_COMMENT_ERR, errorData.message);
+    }
+  }
 };
 
 export default {

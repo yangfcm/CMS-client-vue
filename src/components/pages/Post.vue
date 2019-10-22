@@ -46,7 +46,7 @@
         <div class="my-4 border-top"></div>
         <app-comments-list :comments="comments" :newComment="comment" :commentError="commentError"></app-comments-list>
         <div class="my-4"></div>
-        <app-comment-form></app-comment-form>
+        <app-comment-form :postId="post._id"></app-comment-form>
       </div>
     </div>
   </div>
@@ -88,8 +88,8 @@ export default {
   methods: {
     ...mapActions({
       readPost: "readPost",
-      readComments: "readComments",
-      createComment: "createComment"
+      readComments: "readComments"
+      // createComment: "createComment"
     })
   },
   async created() {
