@@ -44,7 +44,7 @@
           </h5>
         </div>
         <div class="my-4 border-top"></div>
-        <app-comments-list :comments="comments" :newComment="comment" :commentError="commentError"></app-comments-list>
+        <app-comments-list :comments="comments" :commentError="commentError"></app-comments-list>
         <div class="my-4"></div>
         <app-comment-form :postId="post._id"></app-comment-form>
       </div>

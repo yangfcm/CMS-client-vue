@@ -35,7 +35,7 @@ const mutations = {
     state.error = null;
   },
   OPER_COMMENT_ERR: (state, payload) => {
-    state.error = payload.message;
+    state.error = payload;
   }
 };
 
@@ -50,7 +50,7 @@ const actions = {
       context.commit(READ_COMMENTS, response.data);
     } catch (e) {
       const errorData = e.response ? e.response.data : e;
-      context.commit(OPER_POST_ERR, errorData.message);
+      context.commit(OPER_COMMENT_ERR, errorData.message);
     }
   },
   createComment: async (context, payload) => {

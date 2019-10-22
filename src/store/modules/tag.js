@@ -23,7 +23,7 @@ const mutations = {
     state.error = null;
   },
   OPER_TAG_ERR: (state, payload) => {
-    state.error = payload.message;
+    state.error = payload;
   }
 };
 

@@ -9,7 +9,7 @@ const state = {
 
 const getters = {
   posts: state => state.posts,
-  post: state => state.posts[0],
+  post: state => (state.posts ? state.posts[0] : null),
   pagination: state => state.pagination,
   postError: state => state.error
 };
@@ -26,7 +26,7 @@ const mutations = {
     state.pagination = null;
   },
   OPER_POST_ERR: (state, payload) => {
-    state.error = payload.message;
+    state.error = payload;
   }
 };
 
