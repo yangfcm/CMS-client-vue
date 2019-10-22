@@ -54,7 +54,7 @@ const actions = {
   },
   readPost: async (context, id) => {
     try {
-      const response = await axios.get(`/api/posts/${id}`);
+      const response = await axios.get(`/api/posts/${id}?status=1`);
       context.commit(READ_POST, response.data);
     } catch (e) {
       const errorData = e.response ? e.response.data : e;
